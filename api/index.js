@@ -1,25 +1,25 @@
-import express from 'express';
-import { fetchAlbums, createAlbums, updateAlbums, deleteAlbums } from './task';
-import serverless from 'serverless-http';
+import express from "express";
+import serverless from "serverless-http";
 import cors from "cors";
+import { fetchAlbums, createAlbums, updateAlbums, deleteAlbums } from "./task.js";
+
 const app = express();
 const port = 3001;
 
-
 app.use(express.json());
 
-if (process.env.DEVELOPMENT){
-    app.use(cors())
+if (process.env.DEVELOPMENT) {
+  app.use(cors());
 }
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
 app.get('/album', async (req, res) => {
   try{
     const albums = await fetchAlbums();
-    res.send(createTasks.Items)
+    res.send(createAlbums.Items)
   } catch(err){
     res.status(400).send(`Error fetching Albums: ${err}`)
   }
@@ -64,7 +64,7 @@ app.delete('/album/:id', async (req, res) => {
 
 if (process.env.DEVELOPMENT){
     app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+      console.log(`Example app listening on port ${port}`);
 });
 }
 
