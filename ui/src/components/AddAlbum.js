@@ -5,23 +5,23 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { API_URL } from "../utils.js";
 
-export const AddAlbum = ({ fetchTasks }) => {
-  const [newTask, setNewTask] = useState("");
+export const AddAlbum = ({ fetchAlbums }) => {
+  const [newAlbum, setNewAlbum] = useState("");
 
-  const addNewTask = async () => {
+  const addNewAlbum = async () => {
     console.log("new album added!!")
-    // try {
-    //   await axios.post(API_URL, {
-    //     name: newTask,
-    //     completed: false,
-    //   });
+    try {
+      await axios.post(API_URL, {
+        name: newAlbum,
+        listened: false,
+      });
 
-    //   await fetchTasks();
+      await fetchAlbums();
 
-    //   setNewTask("");
-    // } catch (err) {
-    //   console.log(err);
-    // }
+      setNewAlbum("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -36,13 +36,13 @@ export const AddAlbum = ({ fetchTasks }) => {
           label="Album Name"
           variant="standard"
           //align="center"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
+          value={newAlbum}
+          onChange={(e) => setNewAlbum(e.target.value)}
         />
         <Button
-          disabled={!newTask.length}
+          disabled={!newAlbum.length}
           variant="outlined"
-          onClick={addNewTask}
+          onClick={addNewAlbum}
         >
           <AddIcon />
         </Button>

@@ -4,17 +4,38 @@ import DeleteIcom from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { UpdateAlbum } from "./UpdateAlbum";
 import classnames from "classnames";
+import axios from "axios";
+import { API_URL } from "../utils";
 
-export const Album = ({ album }) => {
+export const Album = ({ album, fetchAlbums }) => {
   const { id, name, listened } = album;
   const [isListened, setIslListened] = useState(listened);
   const [isDialogOpen, setisDialogOpen] = useState(false);
 
-  const handleUpdateAlbum = () => {
-    setIslListened((prev) => !prev);
+  const handleUpdateAlbum = async () => {
+    try {
+      await axios.put(API_URL, {
+        id, name, listened: !isListened,
+      })
+      setIslListened((prev) => !prev);
+    } catch (err) {
+      console.log(err)
+      
+    }
+    
   };
 
-  const handleDeleteAlbum = () => {
+  const handleDeleteAlbum = async () => {
+
+    try {
+
+      await axios.delete(`${API_URL}/${album.id}`);
+      await fetchAlbums();
+
+    } catch (error) {
+      console.log(err)
+      
+    }
     console.log("album deleted!!");
   };
 
@@ -37,6 +58,7 @@ export const Album = ({ album }) => {
         </Button>
       </div>
       <UpdateAlbum
+        fetchAlbums={fetchAlbums}
         isDialogOpen={isDialogOpen}
         setisDialogOpen={setisDialogOpen}
         album={album}

@@ -1,1 +1,1 @@
-export const API_URL = "MAN-IDK"
+export const API_URL = "http://localhost:3001/album"
