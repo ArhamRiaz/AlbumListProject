@@ -7,14 +7,14 @@ const docClient = DynamoDBDocumentClient.from(client);
 
 export const fetchAlbums = async () => {
     const command = new ScanCommand({
-        ExpressionAttributeNames: {"name": "name"},
+        ExpressionAttributeNames: {"#name": "name"},
         ProjectionExpression: "id, #name, listened",
         TableName: "Albums",
     });
 
-    const response = await docClient.send(command)
+    const response = await docClient.send(command);
 
-    return response
+    return response;
 }
 
 export const createAlbums = async ({name, listened}) => {

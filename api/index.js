@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 app.get('/album', async (req, res) => {
   try{
     const albums = await fetchAlbums();
-    res.send(createAlbums.Items)
+    res.send(albums.Items)
   } catch(err){
     res.status(400).send(`Error fetching Albums: ${err}`)
   }
