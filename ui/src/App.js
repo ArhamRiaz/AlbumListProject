@@ -33,7 +33,7 @@ export default function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <AddAlbum fetchTasks={fetchAlbums}/>
+      <AddAlbum fetchAlbums={fetchAlbums}/>
       {albums.map((album) => (
         <Album album={album} key={album.id} fetchAlbums={fetchAlbums} />
       ))}
