@@ -32,7 +32,7 @@ export const Album = ({ album, fetchAlbums }) => {
       await axios.delete(`${API_URL}/${album.id}`);
       await fetchAlbums();
 
-    } catch (error) {
+    } catch (err) {
       console.log(err)
       
     }
