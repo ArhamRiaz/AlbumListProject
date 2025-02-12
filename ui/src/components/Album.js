@@ -9,15 +9,15 @@ import { API_URL } from "../utils";
 
 export const Album = ({ album, fetchAlbums }) => {
   const { id, name, listened } = album;
-  const [isListened, setIslListened] = useState(listened);
-  const [isDialogOpen, setisDialogOpen] = useState(false);
+  const [isListened, setIsListened] = useState(listened);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleUpdateAlbum = async () => {
     try {
       await axios.put(API_URL, {
         id, name, listened: !isListened,
       })
-      setIslListened((prev) => !prev);
+      setIsListened((prev) => !prev);
     } catch (err) {
       console.log(err)
       
@@ -50,7 +50,7 @@ export const Album = ({ album, fetchAlbums }) => {
         <Typography variant="h4">{name}</Typography>
       </div>
       <div className="albumButtons">
-        <Button variant="contained" onClick={() => setisDialogOpen(true)}>
+        <Button variant="contained" onClick={() => setIsDialogOpen(true)}>
           <EditIcon></EditIcon>
         </Button>
         <Button variant="contained" color="error" onClick={handleDeleteAlbum}>
@@ -60,7 +60,7 @@ export const Album = ({ album, fetchAlbums }) => {
       <UpdateAlbum
         fetchAlbums={fetchAlbums}
         isDialogOpen={isDialogOpen}
-        setisDialogOpen={setisDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
         album={album}
       />
     </div>

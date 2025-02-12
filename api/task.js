@@ -55,7 +55,7 @@ export const deleteAlbums = async (id) => {
     const command = new DeleteCommand({
         TableName: "Albums",
         Key: {
-            id,
+            id
         },
     });
 

@@ -25,7 +25,9 @@ export const UpdateAlbum = ({fetchAlbums, isDialogOpen, setIsDialogOpen, album})
       <DialogTitle>Edit Album</DialogTitle>
       <div className='dialog'>
         <TextField size='small' label='Album' variant='outlined' onChange={(e) => setAlbumName(e.target.value)}></TextField>
-        <Button variant='contained' onClick={ async () => {await handleUpdateAlbum(); setIsDialogOpen(false);}}>
+        <Button variant='contained' onClick={ async () => {
+          await handleUpdateAlbum();
+          setIsDialogOpen(false);}}>
           <CheckIcon></CheckIcon>
           </Button>
       </div>
