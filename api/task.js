@@ -51,11 +51,11 @@ export const updateAlbums = async ({id, name, listened}) => {
     return response
 }
 
-export const deleteAlbums = async (id) => {
+export const deleteAlbums = async ({id}) => {
     const command = new DeleteCommand({
         TableName: "Albums",
         Key: {
-            id,
+            id
         },
     });
 
