@@ -52,7 +52,7 @@ app.put('/album', async (req, res) => {
 app.delete('/album/:id', async (req, res) => {
     try{
 
-        const id = req.params;
+        const {id}= req.params;
         const response = await deleteAlbums(id)
         res.send(response)
 
