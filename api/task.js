@@ -51,8 +51,8 @@ export const updateAlbums = async ({id, name, listened}) => {
     return response
 }
 
-export const deleteAlbums = async ({id}) => {
-    console.log("id: " + id)
+export const deleteAlbums = async (id) => {
+    console.log("id in task.js: " + id)
     const command = new DeleteCommand({
         TableName: "Albums",
         Key: {
