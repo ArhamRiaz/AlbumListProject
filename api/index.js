@@ -53,6 +53,7 @@ app.delete('/album/:id', async (req, res) => {
     try{
 
         const id= req.params.id;
+        console.log(id)
         const response = await deleteAlbums(id)
         res.send(response)
 
