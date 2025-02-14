@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { API_TOKEN, API_URL } from "../utils.js";
 import { Search } from "./SearchAlbum.js";
 
 
-export const AddAlbum = ({ searchAlbums }) => {
+export const AddAlbum = ({ fetchAlbums }) => {
   const [newAlbum, setNewAlbum] = useState("");
   const [albums, setAlbums] = useState([])
 
@@ -19,7 +19,7 @@ export const AddAlbum = ({ searchAlbums }) => {
         listened: false,
       });
 
-      await searchAlbums();
+      await fetchAlbums();
 
       setNewAlbum("");
     } catch (err) {
@@ -66,10 +66,10 @@ export const AddAlbum = ({ searchAlbums }) => {
           variant="outlined"
           onClick={queryAlbum}
         >
-          <AddIcon/>
+          <SearchIcon/>
         </Button>
           {albums.map((album) => (
-            <Search album={album.title} image={album.cover_image} key={album.cover_image} fetchAlbums={queryAlbum} />
+            <Search album={album.title} image={album.cover_image} key={album.cover_image} fetchAlbums={fetchAlbums} />
           ))}
       </div>
     </div>

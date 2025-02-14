@@ -1,6 +1,6 @@
 import { Button, Checkbox, Typography } from "@mui/material";
 import React, { useState } from "react";
-import DeleteIcom from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import { UpdateAlbum } from "./UpdateAlbum";
 import classnames from "classnames";
@@ -13,6 +13,23 @@ export const Search = ({ album, image,  fetchAlbums }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [albums, setAlbums] = useState([])
 
+  const addNewAlbum = async () => {
+    console.log("new album added!!")
+    try {
+      await axios.post(API_URL, {
+        name: album,
+        listened: false,
+        image: image,
+      });
+
+      await fetchAlbums();
+
+      // setNewAlbum("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   return (
     <div className="album">
@@ -23,7 +40,11 @@ export const Search = ({ album, image,  fetchAlbums }) => {
       >
         <img src={image} width={150} height={150} alt="album logo" />
         <Typography variant="h4">{album}</Typography>
-        
+      </div>
+      <div className="albumButtons">
+        <Button variant="contained" color="error" onClick={addNewAlbum}>
+          <AddIcon></AddIcon>
+        </Button>
       </div>
 
       <UpdateAlbum

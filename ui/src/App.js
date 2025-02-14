@@ -54,7 +54,7 @@ export default function App() {
             />
 
           
-          <Route path="/search" element={<AddAlbum searchAlbums={fetchAlbums} />} />
+          <Route path="/search" element={<AddAlbum fetchAlbums={fetchAlbums} />} />
         
         </Routes>
       </Router>

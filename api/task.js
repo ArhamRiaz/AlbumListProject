@@ -17,11 +17,11 @@ export const fetchAlbums = async () => {
     return response;
 }
 
-export const createAlbums = async ({name, listened}) => {
+export const createAlbums = async ({name, listened, image}) => {
     const uuid = crypto.randomUUID()
     const command = new PutCommand({
         TableName: "Albums",
-        Item: { id: uuid, name, listened}
+        Item: { id: uuid, name, listened, image}
     });
 
     const response = await docClient.send(command)

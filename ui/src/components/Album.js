@@ -8,7 +8,7 @@ import axios from "axios";
 import { API_URL } from "../utils";
 
 export const Album = ({ album, fetchAlbums }) => {
-  const { id, name, listened } = album;
+  const { id, name, listened, image } = album;
   const [isListened, setIsListened] = useState(listened);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -47,6 +47,7 @@ export const Album = ({ album, fetchAlbums }) => {
         })}
       >
         <Checkbox checked={isListened} onChange={handleUpdateAlbum} />
+        <img src={image} width={150} height={150} alt="album logo" />
         <Typography variant="h4">{name}</Typography>
       </div>
       <div className="albumButtons">
