@@ -16,9 +16,9 @@ export const Search = ({ album, image,  fetchAlbums }) => {
   const addNewAlbum = async () => {
     console.log("new album added!!")
     try {
-      await axios.post(API_URL, {
+      await axios.post(API_URL+"album", {
         name: album,
-        listened: false,
+        listened: 0,
         image: image,
       });
 

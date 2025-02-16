@@ -14,7 +14,7 @@ export const AddAlbum = ({ fetchAlbums }) => {
   const addNewAlbum = async () => {
     console.log("new album added!!")
     try {
-      await axios.post(API_URL, {
+      await axios.post(API_URL+"album", {
         name: newAlbum,
         listened: false,
       });

@@ -10,7 +10,7 @@ export const UpdateAlbum = ({fetchAlbums, isDialogOpen, setIsDialogOpen, album})
 
   const handleUpdateAlbum = async () => {
     try {
-      await axios.put(API_URL, {
+      await axios.put(API_URL+"album", {
         id, name: albumName, listened
       })
 

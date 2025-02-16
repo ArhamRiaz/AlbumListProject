@@ -14,15 +14,24 @@ const darkTheme = createTheme({
     mode: 'dark',
   },
 });
-//<AddAlbum fetchAlbums={fetchAlbums}/>
 
 export default function App() {
   const [albums, setAlbums] = useState([])
+  const [list, setList] = useState([])
 
   const fetchAlbums = async () => {
     try {
-      const {data} = await axios.get(API_URL)
+      const {data} = await axios.get(API_URL+"album")
       setAlbums(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchList = async () => {
+    try {
+      const {data} = await axios.get(API_URL+"listen")
+      setList(data)
     } catch (err) {
       console.log(err)
     }
@@ -30,6 +39,7 @@ export default function App() {
 
   useEffect(() => {
     fetchAlbums()
+    fetchList()
   }, [])
   
   return (
@@ -41,13 +51,26 @@ export default function App() {
         <Routes>
 
         <Route
+            path="/listen" element={
+              <>
+              <Typography align="center" variant="h2" paddingTop={2} paddingBottom={2}>
+              Album's To Listen To
+              </Typography>
+              {albums.map((album) => (
+                <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} />
+              ))}
+              </>
+            }
+            />
+
+        <Route
             path="/" element={
               <>
               <Typography align="center" variant="h2" paddingTop={2} paddingBottom={2}>
                 My Album List
               </Typography>
-              {albums.map((album) => (
-                <Album album={album} key={album.id} fetchAlbums={fetchAlbums} />
+              {list.map((album) => (
+                <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} />
               ))}
               </>
             }

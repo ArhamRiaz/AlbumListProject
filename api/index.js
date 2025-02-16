@@ -1,7 +1,7 @@
 import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
-import { fetchAlbums, createAlbums, updateAlbums, deleteAlbums } from "./task.js";
+import { fetchAlbums, fetchList, createAlbums, updateAlbums, deleteAlbums } from "./task.js";
 
 const app = express();
 const port = 3001;
@@ -18,10 +18,19 @@ app.get("/", (req, res) => {
 
 app.get('/album', async (req, res) => {
   try{
-    const albums = await fetchAlbums();
+    const albums = await fetchList();
     res.send(albums.Items)
   } catch(err){
     res.status(400).send(`Error fetching Albums: ${err}`)
+  }
+});
+
+app.get('/listen', async (req, res) => {
+  try{
+    const list = await fetchAlbums();
+    res.send(list.Items)
+  } catch(err){
+    res.status(400).send(`Error fetching List: ${err}`)
   }
 });
 

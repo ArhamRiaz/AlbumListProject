@@ -1,17 +1,40 @@
 import { ListTablesCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { UpdateCommand, PutCommand, DynamoDBDocumentClient, ScanCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, UpdateCommand, PutCommand, DynamoDBDocumentClient, ScanCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 import crypto from "crypto"
 
 const client = new DynamoDBClient({region: "us-east-2"});
 const docClient = DynamoDBDocumentClient.from(client);
 
-export const fetchAlbums = async () => {
-    const command = new ScanCommand({
+export const fetchList = async () => {
+    const command = new QueryCommand({
         ExpressionAttributeNames: {"#name": "name"},
-        ProjectionExpression: "id, #name, listened",
+        ProjectionExpression: "id, #name, listened, image",
         TableName: "Albums",
+        IndexName: "listened-id-index",  
+        KeyConditionExpression: "listened = :trueVal",
+        ExpressionAttributeValues: {
+            ":trueVal": 1 
+        },
     });
 
+    const response = await docClient.send(command);
+
+    return response;
+}
+
+export const fetchAlbums = async () => {
+    const command = new QueryCommand({
+        ExpressionAttributeNames: {"#name": "name"},
+        ProjectionExpression: "id, #name, listened, image",
+        TableName: "Albums",
+        IndexName: "listened-id-index",  
+        KeyConditionExpression: "listened = :falseVal",
+        ExpressionAttributeValues: {
+            ":falseVal": 0 
+        },
+    });
+
+    console.log("command: " + command)
     const response = await docClient.send(command);
 
     return response;
