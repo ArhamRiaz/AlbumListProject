@@ -56,7 +56,7 @@ export default function App() {
               <Typography align="center" variant="h2" paddingTop={2} paddingBottom={2}>
               Album's To Listen To
               </Typography>
-              {albums.map((album) => (
+              {list.map((album) => (
                 <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} />
               ))}
               </>
@@ -69,7 +69,7 @@ export default function App() {
               <Typography align="center" variant="h2" paddingTop={2} paddingBottom={2}>
                 My Album List
               </Typography>
-              {list.map((album) => (
+              {albums.map((album) => (
                 <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} />
               ))}
               </>
@@ -77,7 +77,7 @@ export default function App() {
             />
 
           
-          <Route path="/search" element={<AddAlbum fetchAlbums={fetchAlbums} />} />
+          <Route path="/search" element={<AddAlbum fetchAlbums={fetchAlbums} fetchList={fetchList}/>} />
         
         </Routes>
       </Router>

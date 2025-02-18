@@ -7,6 +7,17 @@ import classnames from "classnames";
 import axios from "axios";
 import { API_URL } from "../utils";
 import { useEffect } from "react";
+import Divider from '@mui/material/Divider';
+
+const style = {
+  mt: 2,
+  mb: 2,
+  width: '100%',
+  borderRadius: 2,
+  border: '1px solid',
+  borderColor: 'divider',
+  backgroundColor: 'background.paper',
+};
 
 
 export const Album = ({ album, fetchAlbums, fetchList }) => {
@@ -54,27 +65,35 @@ export const Album = ({ album, fetchAlbums, fetchList }) => {
 
   return (
     <div className="album">
-      <div
-        className={classnames("flex")}
-      >
-        <Checkbox checked={isListened === 1} onChange={handleUpdateAlbum} />
-        <img src={image} width={150} height={150} alt="album logo" />
-        <Typography variant="h4">{name}</Typography>
-      </div>
-      <div className="albumButtons">
+      <div className={classnames("flex")} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <Checkbox checked={isListened === 1} onChange={handleUpdateAlbum} />
+          <img src={image} width={150} height={150} alt="album logo" />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "8px" }}>  
+          <Typography variant="h4">{name}</Typography>
+      
+
+      <div className="albumButtons" style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
         <Button variant="contained" onClick={() => setIsDialogOpen(true)}>
           <EditIcon></EditIcon>
         </Button>
         <Button variant="contained" color="error" onClick={handleDeleteAlbum}>
           <DeleteIcom></DeleteIcom>
         </Button>
-      </div>
+        </div>
+
+      
+
       <UpdateAlbum
         fetchAlbums={fetchAlbums}
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
         album={album}
       />
+    </div>
+    </div><Divider sx={style} variant="middle"  />
     </div>
   );
 };

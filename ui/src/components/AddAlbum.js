@@ -7,7 +7,8 @@ import { API_TOKEN, API_URL } from "../utils.js";
 import { Search } from "./SearchAlbum.js";
 
 
-export const AddAlbum = ({ fetchAlbums }) => {
+
+export const AddAlbum = ({ fetchAlbums, fetchList }) => {
   const [newAlbum, setNewAlbum] = useState("");
   const [albums, setAlbums] = useState([])
 
@@ -69,7 +70,7 @@ export const AddAlbum = ({ fetchAlbums }) => {
           <SearchIcon/>
         </Button>
           {albums.map((album) => (
-            <Search album={album.title} image={album.cover_image} key={album.cover_image} fetchAlbums={fetchAlbums} />
+            <Search album={album.title} image={album.cover_image} key={album.cover_image} fetchAlbums={fetchAlbums} fetchList={fetchList}/>
           ))}
       </div>
     </div>
