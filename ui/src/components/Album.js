@@ -9,15 +9,6 @@ import { API_URL } from "../utils";
 import { useEffect } from "react";
 import Divider from '@mui/material/Divider';
 
-const style = {
-  mt: 2,
-  mb: 2,
-  width: '100%',
-  borderRadius: 2,
-  border: '1px solid',
-  borderColor: 'divider',
-  backgroundColor: 'background.paper',
-};
 
 
 export const Album = ({ album, fetchAlbums, fetchList }) => {
@@ -83,17 +74,15 @@ export const Album = ({ album, fetchAlbums, fetchList }) => {
           <DeleteIcom></DeleteIcom>
         </Button>
         </div>
-
-      
-
       <UpdateAlbum
         fetchAlbums={fetchAlbums}
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
         album={album}
       />
-    </div>
-    </div><Divider sx={style} variant="middle"  />
+        </div>
+      </div>
+      <Divider sx={ {mt: 2, mb: 2, border: '1px solid', borderColor: 'divider'}} variant="middle"  />
     </div>
   );
 };
