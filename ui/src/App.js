@@ -8,6 +8,9 @@ import { API_URL } from './utils.js';
 import {  Typography } from "@mui/material";
 import { AddAlbum } from './components/AddAlbum.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SignUp } from './components/SignupLogin/SignUpLogin.js';
+
+
 
 const darkTheme = createTheme({
   palette: {
@@ -78,6 +81,8 @@ export default function App() {
 
           
           <Route path="/search" element={<AddAlbum fetchAlbums={fetchAlbums} fetchList={fetchList}/>} />
+
+          <Route path="/signup" element={<SignUp/>} />
         
         </Routes>
       </Router>

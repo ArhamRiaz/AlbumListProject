@@ -1,8 +1,6 @@
 import { Button, Checkbox, Typography } from "@mui/material";
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import { UpdateAlbum } from "./UpdateAlbum";
 import Divider from '@mui/material/Divider';
 import classnames from "classnames";
 import axios from "axios";
@@ -43,7 +41,6 @@ export const Search = ({ album, image,  fetchAlbums, fetchList }) => {
       await fetchAlbums();
       await fetchList();
 
-      // setNewAlbum("");
     } catch (err) {
       console.log(err);
     }
