@@ -9,6 +9,7 @@ import {  Typography } from "@mui/material";
 import { AddAlbum } from './components/AddAlbum.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SignUp } from './components/SignupLogin/SignUpLogin.js';
+import {GoogleOAuthProvider} from "@react-oauth/google"
 
 
 
@@ -47,6 +48,7 @@ export default function App() {
   
   return (
     
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
     <ThemeProvider theme={darkTheme}>
       <Router>
         <ResponsiveAppBar/> 
@@ -87,6 +89,7 @@ export default function App() {
         </Routes>
       </Router>
     </ThemeProvider>
+    </GoogleOAuthProvider>
   );
 }
 
