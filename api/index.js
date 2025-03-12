@@ -2,9 +2,11 @@ import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
 import { fetchAlbums, fetchList, createAlbums, updateAlbums, deleteAlbums } from "./task.js";
+import { OAuth2Client } from 'google-auth-library'; 
 
 const app = express();
 const port = 3001;
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 app.use(express.json());
 
@@ -69,6 +71,31 @@ app.delete('/album/:id', async (req, res) => {
       } catch(err){
         res.status(400).send(`Error deleting album: ${err}`)
       }
+  });
+
+  app.post('/auth/google', async (req, res) => {
+    const { token } = req.body;
+    console.log("token" + token);
+  
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+  
+      const payload = ticket.getPayload();
+      const userId = payload.sub; // Google's unique ID for the user
+      const email = payload.email;
+      const name = payload.name;
+  
+      // Check if the user exists in your database, or create a new user
+      // Example: Save user to database (pseudo-code)
+      // const user = await User.findOrCreate({ googleId: userId, email, name });
+      //res.send(userId)
+      res.status(200).json({ message: 'Login successful', user: { userId, email, name } });
+    } catch (err) {
+      res.status(400).json({ error: 'Invalid token' });
+    }
   });
 
 

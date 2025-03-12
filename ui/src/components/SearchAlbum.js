@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Divider from '@mui/material/Divider';
 import classnames from "classnames";
 import axios from "axios";
-import { API_URL } from "../utils";
+
 
 export const Search = ({ album, image,  fetchAlbums, fetchList }) => {
   
@@ -15,7 +15,7 @@ export const Search = ({ album, image,  fetchAlbums, fetchList }) => {
   const addNewAlbum = async () => {
     console.log("new album added!!")
     try {
-      await axios.post(API_URL+"album", {
+      await axios.post(process.env.REACT_APP_API_URL+"album", {
         name: album,
         listened: 0,
         image: image,
@@ -32,7 +32,7 @@ export const Search = ({ album, image,  fetchAlbums, fetchList }) => {
   const addListenedAlbum = async () => {
     console.log("new album listened to!!")
     try {
-      await axios.post(API_URL+"album", {
+      await axios.post(process.env.REACT_APP_API_URL+"album", {
         name: album,
         listened: 1,
         image: image,
