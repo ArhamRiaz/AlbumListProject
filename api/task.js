@@ -40,6 +40,49 @@ export const fetchAlbums = async () => {
     return response;
 }
 
+export const fetchUsers = async () => {
+    const command = new ScanCommand({
+        //ExpressionAttributeNames: {"#name": "name"},
+        ProjectionExpression: "clientId",
+        TableName: "Users", 
+
+
+    });
+
+    const response = await docClient.send(command);
+
+    return response;
+}
+
+export const getUser = async ({id}) => {
+    const command = new QueryCommand({
+        ExpressionAttributeNames: {"#name": "name"},
+        ProjectionExpression: "clientId, #name, email",
+        TableName: "Users",
+        KeyConditionExpression: "clientId = :clientId",
+        ExpressionAttributeValues: {
+            ":clientId": id
+        },
+    });
+
+    const response = await docClient.send(command);
+
+    return response;
+}
+
+export const createUser = async ({clientId, email, name}) => {
+    const uuid = crypto.randomUUID()
+    const command = new PutCommand({
+        TableName: "Users",
+        Item: { clientid: clientId, name, email}
+    });
+
+    const response = await docClient.send(command)
+
+    return response
+}
+
+
 export const createAlbums = async ({name, listened, image}) => {
     const uuid = crypto.randomUUID()
     const command = new PutCommand({

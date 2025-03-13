@@ -1,7 +1,7 @@
 import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
-import { fetchAlbums, fetchList, createAlbums, updateAlbums, deleteAlbums } from "./task.js";
+import { fetchAlbums, fetchList, createAlbums, updateAlbums, deleteAlbums, fetchUsers, createUser, getUser } from "./task.js";
 import { OAuth2Client } from 'google-auth-library'; 
 
 const app = express();
@@ -71,6 +71,38 @@ app.delete('/album/:id', async (req, res) => {
       } catch(err){
         res.status(400).send(`Error deleting album: ${err}`)
       }
+  });
+
+
+app.get('/users', async (req, res) => {
+  try{
+    const users = await fetchUsers();
+    res.send(users.Items)
+  } catch(err){
+    res.status(400).send(`Error fetching Users: ${err}`)
+  }
+});
+
+app.post('/user', async (req, res) => {
+  try{
+    console.log("req body: " + req.body)
+    const users = await getUser(req.body);
+    res.send(users.Items)
+  } catch(err){
+    res.status(400).send(`Error finding User: ${err}`)
+  }
+});
+
+app.post('/makeuser', async (req, res) => {
+  try{
+
+      const user = req.body;
+      const response = await createUser(user)
+      res.send(response)
+
+    } catch(err){
+      res.status(400).send(`Error creating user: ${err}`)
+    }
   });
 
   app.post('/auth/google', async (req, res) => {

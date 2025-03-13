@@ -17,8 +17,15 @@ export const SignUp = () => {
       });
 
       console.log('Login successful:', response.data.user);
-      // Store user data in context or local storage
-      //localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      let {userId, email, name} = response.data.user;
+      
+      const isUser = await axios.post(process.env.REACT_APP_API_URL + 'user', {id:userId});
+      console.log(isUser.data);
+      
+
+
+     
     } catch (err) {
       console.error('Login failed:', err);
     }

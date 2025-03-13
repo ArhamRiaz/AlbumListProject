@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Album Tracker",
+  "name": "Album Tracker Website",
   "icons": [
     {
       "src": "favicon.ico",
