@@ -74,7 +74,7 @@ export const createUser = async ({clientId, email, name}) => {
     const uuid = crypto.randomUUID()
     const command = new PutCommand({
         TableName: "Users",
-        Item: { clientid: clientId, name, email}
+        Item: { clientId: clientId, name, email}
     });
 
     const response = await docClient.send(command)

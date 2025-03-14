@@ -22,6 +22,14 @@ export const SignUp = () => {
       
       const isUser = await axios.post(process.env.REACT_APP_API_URL + 'user', {id:userId});
       console.log(isUser.data);
+
+      if (isUser.data === undefined || isUser.data.length == 0){
+        const response = await axios.post(process.env.REACT_APP_API_URL + 'makeuser', {
+          clientId: userId, email: email, name: name
+        })
+      } else {
+        console.log("ayyy")
+      }
       
 
 
