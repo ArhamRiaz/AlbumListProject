@@ -22,10 +22,30 @@ const darkTheme = createTheme({
 export default function App() {
   const [albums, setAlbums] = useState([])
   const [list, setList] = useState([])
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Add a loading state
+  const [page, setPage] = useState(true)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    console.log("checking: ")
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false); // Set loading to false after checking for user
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      fetchAlbums();
+      fetchList();
+    }
+  }, [user, page]);
 
   const fetchAlbums = async () => {
     try {
-      const {data} = await axios.get(API_URL+"album")
+      console.log(user)
+      const {data} = await axios.get(API_URL+"album/" + user.userId)
       setAlbums(data)
     } catch (err) {
       console.log(err)
@@ -41,10 +61,14 @@ export default function App() {
     }
   }
 
-  useEffect(() => {
-    fetchAlbums()
-    fetchList()
-  }, [])
+  // useEffect(() => {
+  //   fetchAlbums()
+  //   fetchList()
+  // }, [])
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator while checking for user
+  }
   
   return (
     

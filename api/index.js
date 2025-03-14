@@ -27,6 +27,18 @@ app.get('/album', async (req, res) => {
   }
 });
 
+app.get('/album/:user', async (req, res) => {
+  try{
+
+    const user = req.params.user
+    console.log("userId: " + user)
+    const albums = await fetchList(user);
+    res.send(albums.Items)
+  } catch(err){
+    res.status(400).send(`Error fetching Users Albums: ${err}`)
+  }
+});
+
 app.get('/listen', async (req, res) => {
   try{
     const list = await fetchAlbums();

@@ -5,15 +5,18 @@ import crypto from "crypto"
 const client = new DynamoDBClient({region: "us-east-2"});
 const docClient = DynamoDBDocumentClient.from(client);
 
-export const fetchList = async () => {
+export const fetchList = async (id) => {
+    console.log("TASK.JS: " + id)
     const command = new QueryCommand({
         ExpressionAttributeNames: {"#name": "name"},
         ProjectionExpression: "id, #name, listened, image",
         TableName: "Albums",
         IndexName: "listened-id-index",  
         KeyConditionExpression: "listened = :trueVal",
+        FilterExpression: "userId = :id",
         ExpressionAttributeValues: {
-            ":trueVal": 1 
+            ":trueVal": 1,
+            ":id": id,
         },
     });
 
@@ -30,7 +33,7 @@ export const fetchAlbums = async () => {
         IndexName: "listened-id-index",  
         KeyConditionExpression: "listened = :falseVal",
         ExpressionAttributeValues: {
-            ":falseVal": 0 
+            ":falseVal": 0
         },
     });
 
