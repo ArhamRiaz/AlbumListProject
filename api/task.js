@@ -86,11 +86,11 @@ export const createUser = async ({clientId, email, name}) => {
 }
 
 
-export const createAlbums = async ({name, listened, image}) => {
+export const createAlbums = async ({name, listened, image, userId}) => {
     const uuid = crypto.randomUUID()
     const command = new PutCommand({
         TableName: "Albums",
-        Item: { id: uuid, name, listened, image}
+        Item: { id: uuid, name, listened, image, userId}
     });
 
     const response = await docClient.send(command)

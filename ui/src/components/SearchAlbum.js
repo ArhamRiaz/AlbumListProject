@@ -6,7 +6,7 @@ import classnames from "classnames";
 import axios from "axios";
 
 
-export const Search = ({ album, image,  fetchAlbums, fetchList }) => {
+export const Search = ({ album, image,  fetchAlbums, fetchList, userId }) => {
   
   const [isListened, setIsListened] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -19,6 +19,7 @@ export const Search = ({ album, image,  fetchAlbums, fetchList }) => {
         name: album,
         listened: 0,
         image: image,
+        userId: userId
       });
 
       await fetchAlbums();
@@ -36,6 +37,7 @@ export const Search = ({ album, image,  fetchAlbums, fetchList }) => {
         name: album,
         listened: 1,
         image: image,
+        userId: userId
       });
 
       await fetchAlbums();

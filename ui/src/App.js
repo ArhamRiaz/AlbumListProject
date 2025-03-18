@@ -67,7 +67,7 @@ export default function App() {
   // }, [])
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading indicator while checking for user
+    return <div>Loading...</div>; 
   }
   
   return (
@@ -86,7 +86,7 @@ export default function App() {
               Album's To Listen To
               </Typography>
               {list.map((album) => (
-                <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} />
+                <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={user.userId} />
               ))}
               </>
             }
@@ -99,14 +99,13 @@ export default function App() {
                 My Album List
               </Typography>
               {albums.map((album) => (
-                <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} />
+                <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={user.userId} />
               ))}
               </>
             }
             />
 
-          
-          <Route path="/search" element={<AddAlbum fetchAlbums={fetchAlbums} fetchList={fetchList}/>} />
+          <Route path="/search" element={<AddAlbum fetchAlbums={fetchAlbums} fetchList={fetchList} userId={user.userId}/>} />
 
           <Route path="/signup" element={<SignUp/>} />
         

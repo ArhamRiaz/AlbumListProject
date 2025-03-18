@@ -13,7 +13,7 @@ import Divider from '@mui/material/Divider';
 
 
 
-export const Album = ({ album, fetchAlbums, fetchList }) => {
+export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
   const { id, name, listened, image } = album;
   const [isListened, setIsListened] = useState(listened);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -30,7 +30,7 @@ export const Album = ({ album, fetchAlbums, fetchList }) => {
       const new_listened = isListened === 0 ? 1 : 0;
 
       await axios.put(API_URL+"album", {
-        id, name, listened: new_listened,
+        id, name, listened: new_listened, userId
       })
       setIsListened(new_listened);
       await fetchAlbums();
