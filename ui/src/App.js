@@ -82,11 +82,11 @@ export default function App() {
     <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
       <ThemeProvider theme={darkTheme}>
         <Router>
-          <ResponsiveAppBar />
+        <ResponsiveAppBar setUser={setUser} user={user} />
           <CssBaseline />
           <Routes>
             {/* Public route for signup */}
-            <Route path="/signup" element={<SignUp setUser={setUser} />} />
+            <Route path="/signup" element={<SignUp setUser={setUser} user={user}/>} />
 
             {/* Protected routes */}
             <Route

@@ -3,21 +3,33 @@ import TextField from '@mui/material/TextField';
 import './SignUpLogin.css';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
+import MuiCard from '@mui/material/Card';
+import { styled } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
 
-export const SignUp = ({ setUser }) => {
-  const [localUser, setLocalUser] = useState(null); 
+const Card = styled(MuiCard)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignSelf: 'center',
+  width: '100%',
+  padding: theme.spacing(4),
+  gap: theme.spacing(2),
+  boxShadow:
+    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  [theme.breakpoints.up('sm')]: {
+    width: '450px',
+  },
+  ...theme.applyStyles('dark', {
+    boxShadow:
+      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+  }),
+}));
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setLocalUser(JSON.parse(storedUser));
-    }
-  }, []);
-
+export const SignUp = ({ setUser, user }) => {
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
       console.log('ATTEMPTING TO MAKE THIS WORK: ');
@@ -44,7 +56,6 @@ export const SignUp = ({ setUser }) => {
 
       // Store user data in state and localStorage
       const userData = { userId, email, name };
-      setLocalUser(userData); // Update local state
       setUser(userData); // Update user state in App component
       localStorage.setItem('user', JSON.stringify(userData));
     } catch (err) {
@@ -58,34 +69,42 @@ export const SignUp = ({ setUser }) => {
 
   const handleLogout = () => {
     // Clear user data from state and localStorage
-    setLocalUser(null);
     setUser(null); // Update user state in App component
     localStorage.removeItem('user');
   };
 
   return (
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
-      <div className='container'>
-        {localUser ? (
-          // Show user info and logout button if signed in
-          <div>
-            <h2>Welcome, {localUser.name}!</h2>
-            <p>Email: {localUser.email}</p>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        ) : (
-          // Show Google Login button if not signed in
-          <div style={{ textAlign: 'center' }}>
-            <GoogleLogin
-              onSuccess={handleGoogleLoginSuccess}
-              onError={handleGoogleLoginError}
-            />
-            <Typography align="center" variant="h5" paddingTop={2} paddingBottom={2}>
-              Welcome to album-tracker! Please sign in with a Google account to begin!
-            </Typography>
-          </div>
-        )}
-      </div>
-    </GoogleOAuthProvider>
+    <Card variant='outlined'>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
+        <div>
+          {user ? (
+            // Show user info and logout button if signed in
+            <div>
+              <h2>Welcome, {user.name}!</h2>
+              <p>Email: {user.email}</p>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          ) : (
+            // Show Google Login button if not signed in
+            <div style={{ textAlign: 'center' }}>
+              <Typography
+                component="h1"
+                variant="h4"
+                sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+              >
+                Sign in / Sign Up
+              </Typography>
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={handleGoogleLoginError}
+              />
+              <Typography align="center" variant="h5" paddingTop={2} paddingBottom={2}>
+                Welcome to album-tracker! Please sign in with a Google account to begin!
+              </Typography>
+            </div>
+          )}
+        </div>
+      </GoogleOAuthProvider>
+    </Card>
   );
 };
