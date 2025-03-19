@@ -3,16 +3,18 @@ import TextField from '@mui/material/TextField';
 import './SignUpLogin.css';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
+import Typography from '@mui/material/Typography';
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
 
-export const SignUp = () => {
-  const [user, setUser] = useState(null); 
+export const SignUp = ({ setUser }) => {
+  const [localUser, setLocalUser] = useState(null); 
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setLocalUser(JSON.parse(storedUser));
     }
   }, []);
 
@@ -42,7 +44,8 @@ export const SignUp = () => {
 
       // Store user data in state and localStorage
       const userData = { userId, email, name };
-      setUser(userData);
+      setLocalUser(userData); // Update local state
+      setUser(userData); // Update user state in App component
       localStorage.setItem('user', JSON.stringify(userData));
     } catch (err) {
       console.error('Login failed:', err);
@@ -55,26 +58,32 @@ export const SignUp = () => {
 
   const handleLogout = () => {
     // Clear user data from state and localStorage
-    setUser(null);
+    setLocalUser(null);
+    setUser(null); // Update user state in App component
     localStorage.removeItem('user');
   };
 
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
       <div className='container'>
-        {user ? (
+        {localUser ? (
           // Show user info and logout button if signed in
           <div>
-            <h2>Welcome, {user.name}!</h2>
-            <p>Email: {user.email}</p>
+            <h2>Welcome, {localUser.name}!</h2>
+            <p>Email: {localUser.email}</p>
             <button onClick={handleLogout}>Logout</button>
           </div>
         ) : (
           // Show Google Login button if not signed in
-          <GoogleLogin
-            onSuccess={handleGoogleLoginSuccess}
-            onError={handleGoogleLoginError}
-          />
+          <div style={{ textAlign: 'center' }}>
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={handleGoogleLoginError}
+            />
+            <Typography align="center" variant="h5" paddingTop={2} paddingBottom={2}>
+              Welcome to album-tracker! Please sign in with a Google account to begin!
+            </Typography>
+          </div>
         )}
       </div>
     </GoogleOAuthProvider>

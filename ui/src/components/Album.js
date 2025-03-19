@@ -28,9 +28,9 @@ export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
   const handleUpdateAlbum = async () => {
     try {
       const new_listened = isListened === 0 ? 1 : 0;
-
+      const uID = userId.userId
       await axios.put(API_URL+"album", {
-        id, name, listened: new_listened, userId
+        id, name, listened: new_listened, uID
       })
       setIsListened(new_listened);
       await fetchAlbums();

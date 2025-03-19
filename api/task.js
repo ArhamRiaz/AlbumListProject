@@ -6,7 +6,6 @@ const client = new DynamoDBClient({region: "us-east-2"});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const fetchList = async (id) => {
-    console.log("TASK.JS: " + id)
     const command = new QueryCommand({
         ExpressionAttributeNames: {"#name": "name"},
         ProjectionExpression: "id, #name, listened, image",
@@ -19,25 +18,24 @@ export const fetchList = async (id) => {
             ":id": id,
         },
     });
-
     const response = await docClient.send(command);
 
     return response;
 }
 
-export const fetchAlbums = async () => {
+export const fetchAlbums = async (id) => {
     const command = new QueryCommand({
         ExpressionAttributeNames: {"#name": "name"},
         ProjectionExpression: "id, #name, listened, image",
         TableName: "Albums",
         IndexName: "listened-id-index",  
         KeyConditionExpression: "listened = :falseVal",
+        FilterExpression: "userId = :id",
         ExpressionAttributeValues: {
-            ":falseVal": 0
+            ":falseVal": 0,
+            ":id": id
         },
     });
-
-    console.log("command: " + command)
     const response = await docClient.send(command);
 
     return response;

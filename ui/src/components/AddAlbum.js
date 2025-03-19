@@ -70,7 +70,7 @@ export const AddAlbum = ({ fetchAlbums, fetchList, userId }) => {
           <SearchIcon/>
         </Button>
           {albums.map((album) => (
-            <Search album={album.title} image={album.cover_image} key={album.cover_image} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={userId}/>
+            <Search album={album.title} image={album.cover_image} key={album.cover_image} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={userId.userId}/>
           ))}
       </div>
     </div>
