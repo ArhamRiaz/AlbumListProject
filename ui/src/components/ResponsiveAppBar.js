@@ -11,7 +11,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate, useLocation } from "react-router-dom";
 
 const pages = ["Albums List", "Listen List", "Search", "Profile"];
@@ -49,10 +48,11 @@ function ResponsiveAppBar({ setUser, user }) {
   const functions = [handleLogout];
 
   return (
-    <AppBar position="static" sx={{ height: 64 }}>
-      <Container maxWidth="xl" sx={{ width: 640, margin: '0 auto' }}>
-        <Toolbar disableGutters sx={{ height: 64 }}>
+    <AppBar position="sticky" sx={{ width: '100%', minWidth: '100%', maxWidth: '100%', flexShrink: 0 }}>
+      <Container maxWidth={false} sx={{ width: '100%', padding: 0, margin: 0 }}>
+        <Toolbar disableGutters sx={{ width: '100%', maxWidth: 1280, margin: '0 auto', padding: '0 16px' }}>
           
+          {/* Mobile Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -92,7 +92,8 @@ function ResponsiveAppBar({ setUser, user }) {
             </Menu>
           </Box>
           
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {/* Desktop Menu */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: 'center' }}>
             {pages.map((page, index) => (
               <Button
                 key={page}
@@ -101,7 +102,8 @@ function ResponsiveAppBar({ setUser, user }) {
                   my: 2, 
                   color: "white", 
                   display: "block", 
-                  fontWeight: location.pathname === paths[index] ? 'bold' : 'normal' 
+                  fontWeight: location.pathname === paths[index] ? 'bold' : 'normal',
+                  mx: 2, // Add margin between buttons
                 }}
               >
                 {page}
@@ -109,6 +111,7 @@ function ResponsiveAppBar({ setUser, user }) {
             ))}
           </Box>
 
+          {/* User Avatar and Settings */}
           {user ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

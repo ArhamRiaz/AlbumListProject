@@ -79,7 +79,7 @@ export const SignUp = ({ setUser, user }) => {
       justifyContent: 'center',
       alignItems: 'center',
       height: '15%', // Full viewport height
-      width: '90vw', // Full viewport width
+      width: '90%', // Full viewport width
     }}>
     <Card variant='outlined'>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>

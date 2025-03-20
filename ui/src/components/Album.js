@@ -66,7 +66,16 @@ export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "8px" }}>  
-          <Typography variant="h5">{name}</Typography>
+        <Typography
+            variant="h5"
+            sx={{
+              maxWidth: '350px', // Set a maximum width for the text
+              whiteSpace: 'normal', // Allow text to wrap to the next line
+              wordWrap: 'break-word', // Break long words if necessary
+            }}
+          >
+            {name}
+          </Typography>
       
       <div className="albumButtons" style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
           
