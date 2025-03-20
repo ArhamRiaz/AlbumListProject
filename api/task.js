@@ -1,6 +1,7 @@
 import { ListTablesCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { QueryCommand, UpdateCommand, PutCommand, DynamoDBDocumentClient, ScanCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
-import crypto from "crypto"
+import crypto from "crypto";
+import moment from "moment";
 
 const client = new DynamoDBClient({region: "us-east-2"});
 const docClient = DynamoDBDocumentClient.from(client);
@@ -86,9 +87,11 @@ export const createUser = async ({clientId, email, name}) => {
 
 export const createAlbums = async ({name, listened, image, userId}) => {
     const uuid = crypto.randomUUID()
+    const createdAt = moment().format('YYYY-MM-DD HH:mm:ss'); 
+
     const command = new PutCommand({
         TableName: "Albums",
-        Item: { id: uuid, name, listened, image, userId}
+        Item: { id: uuid, name, listened, image, userId, createdAt}
     });
 
     const response = await docClient.send(command)

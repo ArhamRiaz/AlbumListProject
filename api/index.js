@@ -129,14 +129,10 @@ app.post('/makeuser', async (req, res) => {
       });
   
       const payload = ticket.getPayload();
-      const userId = payload.sub; // Google's unique ID for the user
+      const userId = payload.sub; 
       const email = payload.email;
       const name = payload.name;
   
-      // Check if the user exists in your database, or create a new user
-      // Example: Save user to database (pseudo-code)
-      // const user = await User.findOrCreate({ googleId: userId, email, name });
-      //res.send(userId)
       res.status(200).json({ message: 'Login successful', user: { userId, email, name } });
     } catch (err) {
       res.status(400).json({ error: 'Invalid token' });
