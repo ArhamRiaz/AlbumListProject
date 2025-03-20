@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate, useLocat
 import { SignUp } from './components/SignupLogin/SignUpLogin.js';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Pagination from '@mui/material/Pagination';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const darkTheme = createTheme({
   palette: {
@@ -43,6 +44,7 @@ export default function App() {
   const [page, setPage] = useState('signup');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8); // Number of items per page
+  const [isDataLoading, setIsDataLoading] = useState(false); // New state for data loading
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -63,20 +65,26 @@ export default function App() {
   }, [user]);
 
   const fetchAlbums = async () => {
+    setIsDataLoading(true); // Set loading to true before fetching data
     try {
       const { data } = await axios.get(API_URL + "album/" + user.userId);
       setAlbums(data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsDataLoading(false); // Set loading to false after fetching data
     }
   };
-
+  
   const fetchList = async () => {
+    setIsDataLoading(true); // Set loading to true before fetching data
     try {
       const { data } = await axios.get(API_URL + "listen/" + user.userId);
       setList(data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsDataLoading(false); // Set loading to false after fetching data
     }
   };
 
@@ -96,10 +104,8 @@ export default function App() {
         <ResponsiveAppBar setUser={setUser} user={user} page2={page} />
           <CssBaseline />
           <Routes>
-            {/* Public route for signup */}
             <Route path="/signup"  element={<SignUp  setUser={setUser}  user={user}/>}  />
 
-            {/* Protected routes */}
             <Route
               path="/"
               element={
@@ -108,16 +114,24 @@ export default function App() {
                     <Typography align="center" variant="h2" paddingTop={2} paddingBottom={2}>
                       My Album List
                     </Typography>
-                    {currentAlbums.map((album) => (
-                      <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={user} />
-                    ))}
-                      <Pagination
-                        count={Math.ceil(albums.length / itemsPerPage)}
-                        page={currentPage}
-                        onChange={(event, page) => setCurrentPage(page)}
-                        color="primary"
-                        style={{ padding: '20px 0', display: 'flex', justifyContent: 'center' }}
-                      />
+                    {isDataLoading ? (
+                      <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+                        <CircularProgress /> {/* Show loading spinner */}
+                      </div>
+                    ) : (
+                      <>
+                        {currentAlbums.map((album) => (
+                          <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={user} />
+                        ))}
+                        <Pagination
+                          count={Math.ceil(albums.length / itemsPerPage)}
+                          page={currentPage}
+                          onChange={(event, page) => setCurrentPage(page)}
+                          color="primary"
+                          style={{ padding: '20px 0', display: 'flex', justifyContent: 'center' }}
+                        />
+                      </>
+                    )}
                       
                   </> 
                 </ProtectedRoutes>
@@ -132,16 +146,24 @@ export default function App() {
                     <Typography align="center" variant="h2" paddingTop={2} paddingBottom={2}>
                       Album's To Listen To
                     </Typography>
-                    {currentList.map((album) => (
-                      <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={user} />
-                    ))}
-                    <Pagination
-                        count={Math.ceil(list.length / itemsPerPage)}
-                        page={currentPage}
-                        onChange={(event, page) => setCurrentPage(page)}
-                        color="primary"
-                        style={{ padding: '20px 0', display: 'flex', justifyContent: 'center' }}
-                      />
+                    {isDataLoading ? (
+                      <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+                        <CircularProgress /> {/* Show loading spinner */}
+                      </div>
+                    ) : (
+                      <>
+                        {currentList.map((album) => (
+                          <Album album={album} key={album.id} fetchAlbums={fetchAlbums} fetchList={fetchList} userId={user} />
+                        ))}
+                        <Pagination
+                          count={Math.ceil(list.length / itemsPerPage)}
+                          page={currentPage}
+                          onChange={(event, page) => setCurrentPage(page)}
+                          color="primary"
+                          style={{ padding: '20px 0', display: 'flex', justifyContent: 'center' }}
+                        />
+                      </>
+                    )}
                   </>
                 </ProtectedRoutes>
               }

@@ -62,16 +62,12 @@ export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
     <div className="album">
       <div className={classnames("flex")} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {/* <Checkbox checked={isListened === 1} onChange={handleUpdateAlbum} /> */}
-
-          <img src={image} width={100} height={100} alt="album logo" />
+              <img src={image} width={100} height={100} alt="album logo" />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "8px" }}>  
           <Typography variant="h5">{name}</Typography>
       
-
-
       <div className="albumButtons" style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
           
           <div 
@@ -87,7 +83,6 @@ export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
         )}        
         </Button>
 
-        
         </div>
         <Button variant="contained" color="error" onClick={handleDeleteAlbum}>
           <DeleteIcom></DeleteIcom>
