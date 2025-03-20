@@ -32,18 +32,14 @@ const Card = styled(MuiCard)(({ theme }) => ({
 export const SignUp = ({ setUser, user }) => {
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
-      console.log('ATTEMPTING TO MAKE THIS WORK: ');
       const response = await axios.post(process.env.REACT_APP_API_URL + 'auth/google', {
         token: credentialResponse.credential,
       });
-
-      console.log('Login successful:', response.data.user);
 
       const { userId, email, name } = response.data.user;
 
       // Check if the user exists in your database
       const isUser = await axios.post(process.env.REACT_APP_API_URL + 'user', { id: userId });
-      console.log(isUser.data);
 
       if (isUser.data === undefined || isUser.data.length === 0) {
         // Create a new user if they don't exist
@@ -88,7 +84,6 @@ export const SignUp = ({ setUser, user }) => {
             // Show user info and logout button if signed in
             <div>
               <h2>Welcome, {user.name}!</h2>
-              <p>Email: {user.email}</p>
               <button onClick={handleLogout}>Logout</button>
             </div>
           ) : (

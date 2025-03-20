@@ -62,7 +62,7 @@ export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
     <div className="album">
       <div className={classnames("flex")} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <img src={image} width={100} height={100} alt="album logo" />
+              <img src={image} width={150} height={150} alt="album logo" />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "8px" }}>  

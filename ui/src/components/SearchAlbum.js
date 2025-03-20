@@ -58,15 +58,22 @@ export const Search = ({ album, image,  fetchAlbums, fetchList, userId }) => {
       </div>
 
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "8px" }}>  
-          <Typography variant="h4">{album}</Typography>
+          <Typography             variant="h5"
+            sx={{
+              maxWidth: '350px', 
+              whiteSpace: 'normal', 
+              wordWrap: 'break-word', 
+            }}
+          >{album}</Typography>
 
       <div className="albumButtons" style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
-        <Button variant="contained" color="success"  onClick={addNewAlbum}>
-          Add Album to Listen List<AddIcon></AddIcon>
-        </Button>
         <Button variant="contained" color="success"  onClick={addListenedAlbum}>
           Already Listened to Album<AddIcon></AddIcon>
         </Button>
+        <Button variant="contained" color="success"  onClick={addNewAlbum}>
+          Add Album to Listen List<AddIcon></AddIcon>
+        </Button>
+
       </div>
 
         </div>
