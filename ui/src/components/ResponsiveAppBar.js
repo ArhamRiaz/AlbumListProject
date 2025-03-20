@@ -12,17 +12,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const pages = [ "Albums", "Listen List", "Search", "Login"]
-const paths = ["/", "/listen", "/search",  "/signup"]
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
+const pages = ["Albums List", "Listen List", "Search", "Profile"];
+const paths = ["/", "/listen", "/search", "/signup"];
+const settings = ['Logout'];
 
 function ResponsiveAppBar({ setUser, user }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -42,12 +42,11 @@ function ResponsiveAppBar({ setUser, user }) {
   };
 
   const handleLogout = () => {
-    // Clear user data from state and localStorage
     setUser(null);
     localStorage.removeItem('user');
   };
 
-  const functions = [handleLogout, handleLogout, handleLogout, handleLogout];
+  const functions = [handleLogout];
 
   return (
     <AppBar position="static" sx={{ height: 64 }}>
@@ -79,22 +78,31 @@ function ResponsiveAppBar({ setUser, user }) {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
             >
               {pages.map((page, index) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(paths[index])}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                  <Typography sx={{ textAlign: 'center', fontWeight: location.pathname === paths[index] ? 'bold' : 'normal' }}>
+                    {page}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, index) => (
               <Button
                 key={page}
                 onClick={() => navigate(paths[index])}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ 
+                  my: 2, 
+                  color: "white", 
+                  display: "block", 
+                  fontWeight: location.pathname === paths[index] ? 'bold' : 'normal' 
+                }}
               >
                 {page}
               </Button>
@@ -105,7 +113,7 @@ function ResponsiveAppBar({ setUser, user }) {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt={user.name} src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu

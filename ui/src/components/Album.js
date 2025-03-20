@@ -64,11 +64,11 @@ export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           {/* <Checkbox checked={isListened === 1} onChange={handleUpdateAlbum} /> */}
 
-          <img src={image} width={150} height={150} alt="album logo" />
+          <img src={image} width={100} height={100} alt="album logo" />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "8px" }}>  
-          <Typography variant="h4">{name}</Typography>
+          <Typography variant="h5">{name}</Typography>
       
 
 

@@ -12,7 +12,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
 
 const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
+  display: 'block',
   flexDirection: 'column',
   alignSelf: 'center',
   width: '100%',
@@ -74,6 +74,13 @@ export const SignUp = ({ setUser, user }) => {
   };
 
   return (
+    <div style={{ 
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '15%', // Full viewport height
+      width: '90vw', // Full viewport width
+    }}>
     <Card variant='outlined'>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
         <div>
@@ -103,8 +110,13 @@ export const SignUp = ({ setUser, user }) => {
               </Typography>
             </div>
           )}
+                        <Typography align="center" variant="h5" paddingTop={2} paddingBottom={2}>
+                This website makes use of the Discogs API to search for albums. Feel free to add as 
+                many albums to either your Listen List (albums you want to listen to) or Albums List (albums you have already listened to)!
+              </Typography>
         </div>
       </GoogleOAuthProvider>
     </Card>
+    </div>
   );
 };

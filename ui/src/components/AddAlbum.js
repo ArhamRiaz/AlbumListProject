@@ -12,22 +12,6 @@ export const AddAlbum = ({ fetchAlbums, fetchList, userId }) => {
   const [newAlbum, setNewAlbum] = useState("");
   const [albums, setAlbums] = useState([])
 
-  const addNewAlbum = async () => {
-    console.log("new album added!!")
-    try {
-      await axios.post(API_URL+"album", {
-        name: newAlbum,
-        listened: false,
-      });
-
-      await fetchAlbums();
-
-      setNewAlbum("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const queryAlbum = async () => {
     console.log("searching for album!!")
     try {
@@ -56,7 +40,7 @@ export const AddAlbum = ({ fetchAlbums, fetchList, userId }) => {
       <div className="addAlbumForm">
         <TextField
           size="small"
-          label="Album Name"
+          label="Album and/or Artist Name"
           variant="standard"
           //align="center"
           value={newAlbum}
