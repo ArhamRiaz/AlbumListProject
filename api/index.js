@@ -31,7 +31,6 @@ app.get('/album/:user', async (req, res) => {
   try{
 
     const user = req.params.user
-    console.log("userId: " + user)
     const albums = await fetchList(user);
     res.send(albums.Items)
   } catch(err){
@@ -77,7 +76,6 @@ app.delete('/album/:id', async (req, res) => {
     try{
 
         const id= req.params.id;
-        console.log("id in index.js: " + id)
         const response = await deleteAlbums(id)
         res.send(response)
 
@@ -98,7 +96,6 @@ app.get('/users', async (req, res) => {
 
 app.post('/user', async (req, res) => {
   try{
-    console.log("req body: " + req.body)
     const users = await getUser(req.body);
     res.send(users.Items)
   } catch(err){
@@ -120,7 +117,6 @@ app.post('/makeuser', async (req, res) => {
 
   app.post('/auth/google', async (req, res) => {
     const { token } = req.body;
-    console.log("token" + token);
   
     try {
       const ticket = await client.verifyIdToken({

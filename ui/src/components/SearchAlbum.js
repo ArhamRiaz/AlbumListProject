@@ -13,7 +13,6 @@ export const Search = ({ album, image,  fetchAlbums, fetchList, userId }) => {
   const [albums, setAlbums] = useState([])
 
   const addNewAlbum = async () => {
-    console.log("new album added!!")
     try {
       await axios.post(process.env.REACT_APP_API_URL+"album", {
         name: album,
@@ -31,7 +30,6 @@ export const Search = ({ album, image,  fetchAlbums, fetchList, userId }) => {
   };
 
   const addListenedAlbum = async () => {
-    console.log("new album listened to!!")
     try {
       await axios.post(process.env.REACT_APP_API_URL+"album", {
         name: album,

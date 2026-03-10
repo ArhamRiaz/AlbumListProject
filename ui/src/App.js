@@ -148,7 +148,7 @@ export default function App() {
                     </Typography>
                     {isDataLoading ? (
                       <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-                        <CircularProgress /> {/* Show loading spinner */}
+                        <CircularProgress />
                       </div>
                     ) : (
                       <>

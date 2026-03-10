@@ -54,7 +54,6 @@ export const Album = ({ album, fetchAlbums, fetchList, userId}) => {
       console.log(err)
       
     }
-    console.log("album deleted!!");
   };
 
   return (

@@ -13,7 +13,6 @@ export const AddAlbum = ({ fetchAlbums, fetchList, userId }) => {
   const [albums, setAlbums] = useState([])
 
   const queryAlbum = async () => {
-    console.log("searching for album!!")
     try {
       const response = await fetch(
         `https://api.discogs.com/database/search?q=${newAlbum}&type=master&token=${API_TOKEN}`
@@ -21,8 +20,6 @@ export const AddAlbum = ({ fetchAlbums, fetchList, userId }) => {
       const data = await response.json();
       const results = data.results;
 
-      console.log(results)
-      //await fetchAlbums();
       setAlbums([])
       setAlbums(results)
 
