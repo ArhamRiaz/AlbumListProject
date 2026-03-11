@@ -1,152 +1,160 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { useNavigate, useLocation } from "react-router-dom";
-
-const pages = ["Albums List", "Listen List", "Search", "Profile"];
-const paths = ["/", "/listen", "/search", "/signup"];
-const settings = ['Logout'];
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
+import AlbumIcon from "@mui/icons-material/Album";
 
 function ResponsiveAppBar({ setUser, user }) {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = (path) => {
-    setAnchorElNav(null);
-    if (path) navigate(path);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
+  const handleOpenUserMenu = (e) => setAnchorElUser(e.currentTarget);
+  const handleCloseUserMenu = () => setAnchorElUser(null);
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
+    handleCloseUserMenu();
   };
 
-  const functions = [handleLogout];
-
   return (
-    <AppBar position="sticky" sx={{ width: '100%', minWidth: '100%', maxWidth: '100%', flexShrink: 0 }}>
-      <Container maxWidth={false} sx={{ width: '100%', padding: 0, margin: 0 }}>
-        <Toolbar disableGutters sx={{ width: '100%', maxWidth: 1280, margin: '0 auto', padding: '0 16px' }}>
-          
-          {/* Mobile Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
+    <AppBar
+      position="sticky"
+      elevation={0}
+      sx={{
+        background: "rgba(10,10,10,0.95)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(255,255,255,0.07)",
+      }}
+    >
+      <Toolbar
+        sx={{
+          maxWidth: "100%",
+          px: 3,
+          minHeight: "64px !important",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Logo / Brand */}
+        <Box
+          onClick={() => navigate("/")}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1.2,
+            cursor: "pointer",
+            textDecoration: "none",
+            userSelect: "none",
+          }}
+        >
+          <AlbumIcon sx={{ color: "#c8a96e", fontSize: 22 }} />
+          <Typography
+            variant="h6"
+            sx={{
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 700,
+              fontSize: "1.1rem",
+              color: "#f0ece2",
+              letterSpacing: "0.02em",
+            }}
+          >
+            Album Tracker
+          </Typography>
+        </Box>
+
+        {/* Right side: avatar */}
+        {user && (
+          <Box>
+            <Tooltip title="Account settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt={user.name}
+                  src={user.picture || ""}
+                  sx={{
+                    width: 34,
+                    height: 34,
+                    border: "2px solid rgba(200,169,110,0.4)",
+                    fontSize: "14px",
+                    background: "#2a2a2a",
+                    color: "#c8a96e",
+                  }}
+                >
+                  {user.name ? user.name[0].toUpperCase() : "U"}
+                </Avatar>
+              </IconButton>
+            </Tooltip>
             <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
+              sx={{ mt: "48px" }}
+              anchorEl={anchorElUser}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+              PaperProps={{
+                sx: {
+                  background: "#1a1a1a",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "10px",
+                  minWidth: "160px",
+                },
               }}
             >
-              {pages.map((page, index) => (
-                <MenuItem key={page} onClick={() => handleCloseNavMenu(paths[index])}>
-                  <Typography sx={{ textAlign: 'center', fontWeight: location.pathname === paths[index] ? 'bold' : 'normal' }}>
-                    {page}
-                  </Typography>
+              {user.name && (
+                <MenuItem
+                  disabled
+                  sx={{
+                    opacity: "1 !important",
+                    borderBottom: "1px solid rgba(255,255,255,0.07)",
+                    pb: 1.5,
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "13px",
+                        color: "#f0ece2",
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {user.name}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "11px",
+                        color: "#555",
+                        fontFamily: "'DM Sans', sans-serif",
+                      }}
+                    >
+                      {user.email || ""}
+                    </Typography>
+                  </Box>
                 </MenuItem>
-              ))}
+              )}
+              <MenuItem
+                onClick={handleLogout}
+                sx={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "13px",
+                  color: "#cc5555",
+                  mt: 0.5,
+                  "&:hover": { background: "rgba(204,85,85,0.1)" },
+                }}
+              >
+                Log out
+              </MenuItem>
             </Menu>
           </Box>
-          
-          {/* Desktop Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: 'center' }}>
-            {pages.map((page, index) => (
-              <Button
-                key={page}
-                onClick={() => navigate(paths[index])}
-                sx={{ 
-                  my: 2, 
-                  color: "white", 
-                  display: "block", 
-                  fontWeight: location.pathname === paths[index] ? 'bold' : 'normal',
-                  mx: 2, // Add margin between buttons
-                }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-
-          {/* User Avatar and Settings */}
-          {user ? (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={user.name} src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting, index) => (
-                  <MenuItem key={setting} onClick={functions[index]}>
-                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-          ) : <div></div>}
-
-        </Toolbar>
-      </Container>
+        )}
+      </Toolbar>
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;

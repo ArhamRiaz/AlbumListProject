@@ -1,41 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap");
+
 body {
-    display: flex;
-    justify-content: center;
-    height: 500vh;
-    margin: 0;
-    /* background: linear-gradient(#2A00B7, #42006C); */
+  display: flex;
+  justify-content: center;
+  height: 500vh;
+  margin: 0;
+  /* background: linear-gradient(#2A00B7, #42006C); */
+}
+
+.addTaskForm {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.taskButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.dialog {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 1rem 1rem 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+@media (max-width: 1400px) {
+  .album-grid {
+    grid-template-columns: repeat(6, 1fr);
   }
-  
-  .addTaskForm {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 2rem;
+}
+@media (max-width: 1000px) {
+  .album-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
-  
-  .task {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+}
+@media (max-width: 600px) {
+  .album-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .taskButtons {
-    display: flex;
-    gap: 5px;
-  }
-  
-  .dialog {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 0 1rem 1rem 1rem;
-  }
-  
-  .flex {
-    display: flex;
-  }
-  
-  .done {
-    text-decoration: line-through;
-  }
+}
