@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@mui/material/TextField";
 import "./SignUpLogin.css";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import PasswordIcon from "@mui/icons-material/Password";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "block",
@@ -30,6 +27,11 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export const SignUp = ({ setUser, user }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user, navigate]);
+
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
       const response = await axios.post(
@@ -41,7 +43,7 @@ export const SignUp = ({ setUser, user }) => {
 
       const { userId, email, name } = response.data.user;
 
-      // Check if the user exists in your database
+      // Check if the user exists in the database
       const isUser = await axios.post(process.env.REACT_APP_API_URL + "user", {
         id: userId,
       });
@@ -59,6 +61,7 @@ export const SignUp = ({ setUser, user }) => {
       const userData = { userId, email, name };
       setUser(userData); // Update user state in App component
       localStorage.setItem("user", JSON.stringify(userData));
+      navigate("/");
     } catch (err) {
       console.error("Login failed:", err);
     }
