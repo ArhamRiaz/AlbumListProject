@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import axios from "axios";
+import { api } from "../utils";
 
-export const Search = ({ album, image, fetchAlbums, fetchList, userId }) => {
+export const Search = ({ album, image, fetchAlbums, fetchList }) => {
   const [addedState, setAddedState] = useState(null); // null | 'listened' | 'want'
   const [isLoading, setIsLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -17,11 +17,10 @@ export const Search = ({ album, image, fetchAlbums, fetchList, userId }) => {
   const addAlbum = async (listened) => {
     setIsLoading(true);
     try {
-      await axios.post(process.env.REACT_APP_API_URL + "album", {
+      await api.post("album", {
         name: album,
         listened,
         image,
-        userId,
       });
       await fetchAlbums();
       await fetchList();

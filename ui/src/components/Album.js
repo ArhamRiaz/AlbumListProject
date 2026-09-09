@@ -4,10 +4,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import HeadsetOffIcon from "@mui/icons-material/HeadsetOff";
 import { UpdateAlbum } from "./UpdateAlbum";
-import axios from "axios";
-import { API_URL } from "../utils";
+import { api } from "../utils";
 
-export const Album = ({ album, fetchAlbums, fetchList, userId }) => {
+export const Album = ({ album, fetchAlbums, fetchList }) => {
   const { id, name, listened, image } = album;
   const [isListened, setIsListened] = useState(listened);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -22,12 +21,10 @@ export const Album = ({ album, fetchAlbums, fetchList, userId }) => {
     setIsUpdating(true);
     try {
       const new_listened = isListened === 0 ? 1 : 0;
-      const uID = userId.userId;
-      await axios.put(API_URL + "album", {
+      await api.put("album", {
         id,
         name,
         listened: new_listened,
-        uID,
       });
       setIsListened(new_listened);
       await fetchAlbums();
@@ -41,7 +38,7 @@ export const Album = ({ album, fetchAlbums, fetchList, userId }) => {
 
   const handleDeleteAlbum = async () => {
     try {
-      await axios.delete(`${API_URL + "album"}/${album.id}`);
+      await api.delete(`album/${album.id}`);
       await fetchAlbums();
       await fetchList();
     } catch (err) {

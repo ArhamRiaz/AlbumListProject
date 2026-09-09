@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import AlbumIcon from "@mui/icons-material/Album";
+import { clearSession } from "../utils";
 
 function ResponsiveAppBar({ setUser, user }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -19,7 +20,7 @@ function ResponsiveAppBar({ setUser, user }) {
   const handleCloseUserMenu = () => setAnchorElUser(null);
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    clearSession();
     handleCloseUserMenu();
   };
 

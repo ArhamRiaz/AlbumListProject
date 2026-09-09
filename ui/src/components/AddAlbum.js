@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { API_TOKEN } from "../utils.js";
 import { Search } from "./SearchAlbum.js";
 
-export const AddAlbum = ({ fetchAlbums, fetchList, userId }) => {
+export const AddAlbum = ({ fetchAlbums, fetchList }) => {
   const [query, setQuery] = useState("");
   const [albums, setAlbums] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -190,7 +190,6 @@ export const AddAlbum = ({ fetchAlbums, fetchList, userId }) => {
                 key={album.cover_image}
                 fetchAlbums={fetchAlbums}
                 fetchList={fetchList}
-                userId={userId.userId}
               />
             ))}
           </div>

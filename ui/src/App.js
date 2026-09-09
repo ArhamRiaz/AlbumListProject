@@ -3,8 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import React, { useEffect, useState } from "react";
 import ResponsiveAppBar from "./components/ResponsiveAppBar.js";
 import { Album } from "./components/Album.js";
-import axios from "axios";
-import { API_URL } from "./utils.js";
+import { api } from "./utils.js";
 import { AddAlbum } from "./components/AddAlbum.js";
 import {
   BrowserRouter as Router,
@@ -250,7 +249,6 @@ const MainLayout = ({
           <AddAlbum
             fetchAlbums={fetchAlbums}
             fetchList={fetchList}
-            userId={user}
           />
         ) : (
           <>
@@ -324,7 +322,6 @@ const MainLayout = ({
                       key={album.id}
                       fetchAlbums={fetchAlbums}
                       fetchList={fetchList}
-                      userId={user}
                     />
                   ))}
                 </div>
@@ -381,7 +378,7 @@ export default function App() {
   const fetchAlbums = async () => {
     setIsDataLoading(true);
     try {
-      const { data } = await axios.get(API_URL + "album/" + user.userId);
+      const { data } = await api.get("album");
       setAlbums(data);
     } catch (err) {
       console.log(err);
@@ -393,7 +390,7 @@ export default function App() {
   const fetchList = async () => {
     setIsDataLoading(true);
     try {
-      const { data } = await axios.get(API_URL + "listen/" + user.userId);
+      const { data } = await api.get("listen");
       setList(data);
     } catch (err) {
       console.log(err);

@@ -1,8 +1,7 @@
 import { Button, Dialog, DialogTitle, TextField } from '@mui/material'
 import React , {useState} from 'react'
 import CheckIcon from "@mui/icons-material/Check";
-import axios from 'axios';
-import { API_URL } from '../utils';
+import { api } from '../utils';
 
 export const UpdateAlbum = ({fetchAlbums, isDialogOpen, setIsDialogOpen, album}) => {
   const {id, listened} = album
@@ -10,7 +9,7 @@ export const UpdateAlbum = ({fetchAlbums, isDialogOpen, setIsDialogOpen, album})
 
   const handleUpdateAlbum = async () => {
     try {
-      await axios.put(API_URL+"album", {
+      await api.put("album", {
         id, name: albumName, listened
       })
 

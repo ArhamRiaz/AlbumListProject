@@ -7,6 +7,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { API_URL, clearSession } from "../../utils";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "block",
@@ -34,33 +35,21 @@ export const SignUp = ({ setUser, user }) => {
 
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
-      const response = await axios.post(
-        process.env.REACT_APP_API_URL + "auth/google",
-        {
-          token: credentialResponse.credential,
-        },
-      );
+      const idToken = credentialResponse.credential;
+
+      // The API verifies the token and creates the user record if this is a first
+      // sign-in, so no separate lookup/create calls are needed here.
+      const response = await axios.post(API_URL + "auth/google", {
+        token: idToken,
+      });
 
       const { userId, email, name } = response.data.user;
 
-      // Check if the user exists in the database
-      const isUser = await axios.post(process.env.REACT_APP_API_URL + "user", {
-        id: userId,
-      });
-
-      if (isUser.data === undefined || isUser.data.length === 0) {
-        // Create a new user if they don't exist
-        await axios.post(process.env.REACT_APP_API_URL + "makeuser", {
-          clientId: userId,
-          email: email,
-          name: name,
-        });
-      }
-
-      // Store user data in state and localStorage
+      // The token is sent as a bearer credential on every subsequent API call.
       const userData = { userId, email, name };
       setUser(userData); // Update user state in App component
       localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("token", idToken);
       navigate("/");
     } catch (err) {
       console.error("Login failed:", err);
@@ -74,7 +63,7 @@ export const SignUp = ({ setUser, user }) => {
   const handleLogout = () => {
     // Clear user data from state and localStorage
     setUser(null); // Update user state in App component
-    localStorage.removeItem("user");
+    clearSession();
   };
 
   return (

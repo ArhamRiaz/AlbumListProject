@@ -1,5 +1,5 @@
 import { ListTablesCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { QueryCommand, UpdateCommand, PutCommand, DynamoDBDocumentClient, ScanCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, UpdateCommand, PutCommand, DynamoDBDocumentClient, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 import crypto from "crypto";
 import moment from "moment";
 
@@ -37,20 +37,6 @@ export const fetchAlbums = async (id) => {
             ":id": id
         },
     });
-    const response = await docClient.send(command);
-
-    return response;
-}
-
-export const fetchUsers = async () => {
-    const command = new ScanCommand({
-        //ExpressionAttributeNames: {"#name": "name"},
-        ProjectionExpression: "clientId",
-        TableName: "Users", 
-
-
-    });
-
     const response = await docClient.send(command);
 
     return response;
@@ -99,7 +85,9 @@ export const createAlbums = async ({name, listened, image, userId}) => {
     return response
 }
 
-export const updateAlbums = async ({id, name, listened}) => {
+// The condition expression is what enforces ownership: the write only lands if the
+// stored album already belongs to userId, so a caller cannot touch someone else's row.
+export const updateAlbums = async ({id, name, listened, userId}) => {
     const command = new UpdateCommand({
         TableName: "Albums",
         Key: {
@@ -109,9 +97,11 @@ export const updateAlbums = async ({id, name, listened}) => {
             "#name": "name"
         },
         UpdateExpression: "set #name = :n, listened = :c",
+        ConditionExpression: "userId = :userId",
         ExpressionAttributeValues: {
             ":n": name,
-            ":c": listened
+            ":c": listened,
+            ":userId": userId
         },
         ReturnValues: "ALL_NEW"
     })
@@ -121,11 +111,15 @@ export const updateAlbums = async ({id, name, listened}) => {
     return response
 }
 
-export const deleteAlbums = async (id) => {
+export const deleteAlbums = async (id, userId) => {
     const command = new DeleteCommand({
         TableName: "Albums",
         Key: {
             id
+        },
+        ConditionExpression: "userId = :userId",
+        ExpressionAttributeValues: {
+            ":userId": userId
         },
     });
 
