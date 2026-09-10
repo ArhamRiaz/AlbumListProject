@@ -9,6 +9,8 @@ import {
   deleteAlbums,
   createUser,
   getUser,
+  parseAlbumQuery,
+  queryAlbumsNL,
 } from "./task.js";
 import { OAuth2Client } from "google-auth-library";
 
@@ -92,6 +94,22 @@ app.get("/listen", requireAuth, async (req, res) => {
     res.send(list.Items);
   } catch (err) {
     res.status(400).send(`Error fetching List: ${err}`);
+  }
+});
+
+app.post("/query", requireAuth, async (req, res) => {
+  try {
+    const { question } = req.body;
+    if (!question || typeof question !== "string" || !question.trim()) {
+      return res.status(400).json({ error: "Missing question" });
+    }
+
+    const filters = await parseAlbumQuery(question.trim());
+    const results = await queryAlbumsNL(req.user.userId, filters);
+
+    res.send(results.Items);
+  } catch (err) {
+    res.status(400).send(`Error running query: ${err}`);
   }
 });
 
