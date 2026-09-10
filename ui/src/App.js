@@ -20,6 +20,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import SearchIcon from "@mui/icons-material/Search";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 const darkTheme = createTheme({
   palette: { mode: "dark" },
@@ -93,6 +94,7 @@ const MainLayout = ({
   const isAlbumsRoute = location.pathname === "/";
   const isListenRoute = location.pathname === "/listen";
   const isSearchRoute = location.pathname === "/search";
+  const isAskRoute = location.pathname === "/ask";
 
   const activeData = isAlbumsRoute ? albums : list;
   const indexOfLast = currentPage * itemsPerPage;
@@ -174,9 +176,15 @@ const MainLayout = ({
           active={isSearchRoute}
           onClick={() => navigate("/search")}
         />
+        <SidebarItem
+          icon={<AutoAwesomeIcon sx={{ fontSize: 18 }} />}
+          label="Ask"
+          active={isAskRoute}
+          onClick={() => navigate("/ask")}
+        />
 
         {/* Counts */}
-        {!isSearchRoute && (
+        {!isSearchRoute && !isAskRoute && (
           <div
             style={{
               marginTop: "auto",
@@ -248,6 +256,8 @@ const MainLayout = ({
       >
         {isSearchRoute ? (
           <AddAlbum fetchAlbums={fetchAlbums} fetchList={fetchList} />
+        ) : isAskRoute ? (
+          <NLSearch fetchAlbums={fetchAlbums} fetchList={fetchList} />
         ) : (
           <>
             <h1
