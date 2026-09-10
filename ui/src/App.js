@@ -5,6 +5,7 @@ import ResponsiveAppBar from "./components/ResponsiveAppBar.js";
 import { Album } from "./components/Album.js";
 import { api } from "./utils.js";
 import { AddAlbum } from "./components/AddAlbum.js";
+import { NLSearch } from "./components/NLSearch";
 import {
   BrowserRouter as Router,
   Routes,
@@ -246,10 +247,7 @@ const MainLayout = ({
         }}
       >
         {isSearchRoute ? (
-          <AddAlbum
-            fetchAlbums={fetchAlbums}
-            fetchList={fetchList}
-          />
+          <AddAlbum fetchAlbums={fetchAlbums} fetchList={fetchList} />
         ) : (
           <>
             <h1
