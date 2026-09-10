@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
-import { API_TOKEN } from "../utils.js";
+import { api } from "../utils.js";
 import { Search } from "./SearchAlbum.js";
 
 export const AddAlbum = ({ fetchAlbums, fetchList }) => {
@@ -19,11 +19,10 @@ export const AddAlbum = ({ fetchAlbums, fetchList }) => {
     }
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `https://api.discogs.com/database/search?q=${encodeURIComponent(searchTerm)}&type=master&token=${API_TOKEN}`,
+      const response = await api.get(
+        `discogs/search?q=${encodeURIComponent(searchTerm)}`,
       );
-      const data = await response.json();
-      setAlbums(data.results || []);
+      setAlbums(response.data.results || []);
       setHasSearched(true);
     } catch (err) {
       console.log(err);
